@@ -12,6 +12,7 @@
 		132A42F91FD45F92006A6C60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 132A42F71FD45F92006A6C60 /* Main.storyboard */; };
 		132A42FB1FD45F92006A6C60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 132A42FA1FD45F92006A6C60 /* Assets.xcassets */; };
 		132A42FE1FD45F92006A6C60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 132A42FC1FD45F92006A6C60 /* LaunchScreen.storyboard */; };
+		13EF01B31FD70B9800263712 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EF01B21FD70B9800263712 /* Concentration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		132A42FA1FD45F92006A6C60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		132A42FD1FD45F92006A6C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		132A42FF1FD45F93006A6C60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13EF01B21FD70B9800263712 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,23 @@
 		132A42F21FD45F92006A6C60 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
-				132A42F31FD45F92006A6C60 /* AppDelegate.swift */,
+				132A43051FD45FB5006A6C60 /* SupportingFiles */,
 				132A42F51FD45F92006A6C60 /* ViewController.swift */,
 				132A42F71FD45F92006A6C60 /* Main.storyboard */,
-				132A42FA1FD45F92006A6C60 /* Assets.xcassets */,
-				132A42FC1FD45F92006A6C60 /* LaunchScreen.storyboard */,
 				132A42FF1FD45F93006A6C60 /* Info.plist */,
+				13EF01B21FD70B9800263712 /* Concentration.swift */,
 			);
 			path = Concentration;
+			sourceTree = "<group>";
+		};
+		132A43051FD45FB5006A6C60 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				132A42F31FD45F92006A6C60 /* AppDelegate.swift */,
+				132A42FA1FD45F92006A6C60 /* Assets.xcassets */,
+				132A42FC1FD45F92006A6C60 /* LaunchScreen.storyboard */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +149,7 @@
 			files = (
 				132A42F61FD45F92006A6C60 /* ViewController.swift in Sources */,
 				132A42F41FD45F92006A6C60 /* AppDelegate.swift in Sources */,
+				13EF01B31FD70B9800263712 /* Concentration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
