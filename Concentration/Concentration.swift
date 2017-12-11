@@ -12,6 +12,10 @@ class Concentration {
     
     var cards = [Card]()
     
+    var matchedCards = 0
+    
+    var gameOver = false
+    
     var indexOfOneAndOnlyFaceUpCard: Int?
     
     func chooseCard(at index: Int) {
@@ -21,6 +25,11 @@ class Concentration {
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
+                    matchedCards += 2
+        
+                    if matchedCards == cards.count {
+                        gameOver = true
+                    }
                 }
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = nil
@@ -40,6 +49,36 @@ class Concentration {
             let card = Card()
             cards += [card, card]
         }
-        //todo: Shuffle Cards
+        shuffle()
     }
+    
+    private func shuffle() {
+        var tempDeck = [Card]()
+        while cards.count > 0 {
+            let randomIndex = Int(arc4random_uniform(UInt32(cards.count)))
+            tempDeck.append(cards[randomIndex])
+            cards.remove(at: randomIndex)
+        }
+        cards = tempDeck
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
