@@ -10,7 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    
+    var numberOfPairsOfCards: Int {
+            return (cardButtons.count + 1) / 2
+    }
     
     let emojiArray = ["👻", "🎃", "🦇", "🧙🏼‍♂️", "🍬", "🙀", "👺", "🍭", "😈", "🍎"]
     
@@ -31,7 +35,7 @@ class ViewController: UIViewController {
         flipCount = 0
         emoji = [:]
         emojiChoices = emojiArray
-        game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
         updateViewFromModel()
     }
     
