@@ -41,6 +41,7 @@ class Concentration {
     
     
     func chooseCard(at index: Int) {
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
@@ -62,6 +63,7 @@ class Concentration {
     }
     
     init(numberOfPairsOfCards: Int) {
+        assert(numberOfPairsOfCards > 0, "Concentration.init(\(numberOfPairsOfCards)): Must have at least one pair of cards")
         for _ in 1...numberOfPairsOfCards {
             let card = Card()
             cards += [card, card]
@@ -72,7 +74,7 @@ class Concentration {
     private func shuffle() {
         var tempDeck = [Card]()
         while cards.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(cards.count)))
+            let randomIndex = cards.count.arc4Random
             tempDeck.append(cards[randomIndex])
             cards.remove(at: randomIndex)
         }
@@ -81,7 +83,17 @@ class Concentration {
     
 }
 
-
+extension Int {
+    var arc4Random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        } else {
+            return 0
+        }
+    }
+}
 
 
 
