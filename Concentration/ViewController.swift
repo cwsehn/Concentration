@@ -10,27 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
     var numberOfPairsOfCards: Int {
             return (cardButtons.count + 1) / 2
     }
     
-    let emojiArray = ["👻", "🎃", "🦇", "🧙🏼‍♂️", "🍬", "🙀", "👺", "🍭", "😈", "🍎"]
+    private let emojiArray = ["👻", "🎃", "🦇", "🧙🏼‍♂️", "🍬", "🙀", "👺", "🍭", "😈", "🍎"]
     
-    var flipCount = 0 {
+    private(set) var flipCount = 0 {
         didSet {
             flipCountLabel.text = "Flips \(flipCount)"
         }
     }
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
-    @IBOutlet weak var playAgainButton: UIButton!
+    @IBOutlet private weak var playAgainButton: UIButton!
     
-    @IBAction func playAgain(_ sender: UIButton) {
+    @IBAction private func playAgain(_ sender: UIButton) {
         playAgainButton.isHidden = true
         flipCount = 0
         emoji = [:]
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             if game.gameOver == true {
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -70,10 +70,10 @@ class ViewController: UIViewController {
         }
     }
     
-    var emoji = [Int:String]()
-    lazy var emojiChoices = emojiArray
+    private var emoji = [Int:String]()
+    private lazy var emojiChoices = emojiArray
     
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         
        
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
         return emoji[card.identifier] ?? "?"
     }
     
-    func endGame() {
+    private func endGame() {
         flipCountLabel.text = "Game Over... \n \(flipCount) Flips!"
         playAgainButton.isHidden = false
     }

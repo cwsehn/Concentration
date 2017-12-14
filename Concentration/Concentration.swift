@@ -10,13 +10,13 @@ import Foundation
 
 class Concentration {
     
-    var cards = [Card]()
+    private(set) var cards = [Card]()
     
-    var matchedCards = 0
+    private var matchedCards = 0
     
-    var gameOver = false
+    private(set) var gameOver = false
     
-    var indexOfOneAndOnlyFaceUpCard: Int? {
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
             var foundIndex: Int?
             for index in cards.indices {
