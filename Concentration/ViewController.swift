@@ -16,7 +16,7 @@ class ViewController: UIViewController {
             return (cardButtons.count + 1) / 2
     }
     
-    private let emojiArray = ["👻", "🎃", "🦇", "🧙🏼‍♂️", "🍬", "🙀", "👺", "🍭", "😈", "🍎"]
+    private let emojis = "👻🎃🦇🧙🏼‍♂️🍬🙀👺🍭😈🍎"
     
     private(set) var flipCount = 0 {
         didSet {
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         playAgainButton.isHidden = true
         flipCount = 0
         emoji = [:]
-        emojiChoices = emojiArray
+        emojiChoices = emojis
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
         updateViewFromModel()
     }
@@ -70,17 +70,15 @@ class ViewController: UIViewController {
         }
     }
     
-    private var emoji = [Int:String]()
-    private lazy var emojiChoices = emojiArray
+    private var emoji = [Card:String]()
+    private lazy var emojiChoices = emojis
     
     private func emoji(for card: Card) -> String {
-        
-       
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-                let randomIndex = emojiChoices.count.arc4Random
-                emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+        if emoji[card] == nil, emojiChoices.count > 0 {
+                let randomStringIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: emojiChoices.count.arc4Random)
+                emoji[card] = String(emojiChoices.remove(at: randomStringIndex))
         }
-        return emoji[card.identifier] ?? "?"
+        return emoji[card] ?? "?"
     }
     
     private func endGame() {
@@ -89,6 +87,7 @@ class ViewController: UIViewController {
     }
     
 }
+
 
 
 
