@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
-    var numberOfPairsOfCards: Int {
+    private var numberOfPairsOfCards: Int {
             return (cardButtons.count + 1) / 2
     }
     
@@ -24,12 +24,17 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateFlipCountLabel() {
+    private func updateFlipCountLabel() {
+        let attributedString: NSAttributedString
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeWidth : 5.0,
             .strokeColor : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
         ]
-        let attributedString = NSAttributedString(string: "Flips \(flipCount)", attributes: attributes)
+        if game.gameOver {
+            attributedString = NSAttributedString(string: "Game Over... \n \(flipCount) Flips!", attributes: attributes)
+        } else {
+            attributedString = NSAttributedString(string: "Flips \(flipCount)", attributes: attributes)
+        }
         flipCountLabel.attributedText = attributedString
     }
     
@@ -95,8 +100,9 @@ class ViewController: UIViewController {
     }
     
     private func endGame() {
-        flipCountLabel.text = "Game Over... \n \(flipCount) Flips!"
+        //flipCountLabel.text = "Game Over... \n \(flipCount) Flips!"
         playAgainButton.isHidden = false
+        updateFlipCountLabel()
     }
     
 }
