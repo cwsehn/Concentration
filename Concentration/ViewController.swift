@@ -18,14 +18,9 @@ class ViewController: UIViewController {
     
     private let emojis = "👻🎃🦇🧙🏼‍♂️🍬🙀👺🍭😈🍎"
     
-    private(set) var flipCount = 0 {
-        didSet {
-            updateFlipCountLabel()
-        }
-    }
-    
     private func updateFlipCountLabel() {
-        let attributedString: NSAttributedString
+        let flipCount = game.flipCounter
+        var attributedString: NSAttributedString
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeWidth : 5.0,
             .strokeColor : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
@@ -40,26 +35,24 @@ class ViewController: UIViewController {
     
     @IBOutlet private var cardButtons: [UIButton]!
     
-    @IBOutlet private weak var flipCountLabel: UILabel! {
-        didSet {
-            updateFlipCountLabel()
-        }
-    }
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
     @IBOutlet private weak var playAgainButton: UIButton!
     
     @IBAction private func playAgain(_ sender: UIButton) {
         playAgainButton.isHidden = true
-        flipCount = 0
         emoji = [:]
         emojiChoices = emojis
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+        game.flipCounter = 0
+        updateFlipCountLabel()
         updateViewFromModel()
     }
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
+            updateFlipCountLabel()
             if game.gameOver == true {
                 endGame()
             }
@@ -68,7 +61,6 @@ class ViewController: UIViewController {
             print("Chosen Card not in cardButtons")
         }
         if !game.gameOver {
-            flipCount += 1
             playAgainButton.isHidden = true
         }
     }
@@ -100,7 +92,7 @@ class ViewController: UIViewController {
     }
     
     private func endGame() {
-        //flipCountLabel.text = "Game Over... \n \(flipCount) Flips!"
+        playAgainButton.setTitle("Play Again?", for: .normal)
         playAgainButton.isHidden = false
         updateFlipCountLabel()
     }

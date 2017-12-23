@@ -14,6 +14,8 @@ struct Concentration {
     
     private var matchedCards = 0
     
+    var flipCounter: Int = 0
+    
     private(set) var gameOver = false
     
     private var indexOfOneAndOnlyFaceUpCard: Int? {
@@ -40,6 +42,7 @@ struct Concentration {
     
     mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
+        flipCounter += 1
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
