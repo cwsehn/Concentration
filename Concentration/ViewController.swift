@@ -16,14 +16,28 @@ class ViewController: UIViewController {
             return (cardButtons.count + 1) / 2
     }
     
-    private let emojis = "👻🎃🦇🧙🏼‍♂️🍬🙀👺🍭😈🍎"
+    let themeList: [(emojis: String, cardColor: UIColor, secondaryColor: UIColor)] = [
+        ("👻🎃🦇🧙🏼‍♂️🍬🙀👺🍭😈🍎", #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)),
+        ("🎄🎅🏼✨🎁☃️❄️⛪️🐪👑🥂🥁🐑👼🏻🎺", #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1))
+    
+    
+    ]
+   
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViewFromModel()
+        updateFlipCountLabel()
+        view.backgroundColor = themeList[1].secondaryColor
+        
+    }
     
     private func updateFlipCountLabel() {
         let flipCount = game.flipCounter
         var attributedString: NSAttributedString
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeWidth : 5.0,
-            .strokeColor : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+            .strokeColor : themeList[1].cardColor
         ]
         if game.gameOver {
             attributedString = NSAttributedString(string: "Game Over... \n \(flipCount) Flips!", attributes: attributes)
@@ -42,7 +56,7 @@ class ViewController: UIViewController {
     @IBAction private func playAgain(_ sender: UIButton) {
         playAgainButton.isHidden = true
         emoji = [:]
-        emojiChoices = emojis
+        emojiChoices = themeList[1].emojis
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
         game.flipCounter = 0
         updateFlipCountLabel()
@@ -71,17 +85,17 @@ class ViewController: UIViewController {
             let card = game.cards[index]
             if card.isFaceUp {
                 button.setTitle(emoji(for: card), for: .normal)
-                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                button.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
             } else {
                 button.setTitle("", for: .normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 0) : themeList[1].cardColor
             }
         }
     }
     
     private var emoji = [Card:String]()
-    private lazy var emojiChoices = emojis
+    private lazy var emojiChoices = themeList[1].emojis
     
     private func emoji(for card: Card) -> String {
         if emoji[card] == nil, emojiChoices.count > 0 {
@@ -93,8 +107,8 @@ class ViewController: UIViewController {
     
     private func endGame() {
         playAgainButton.setTitle("Play Again?", for: .normal)
-        playAgainButton.isHidden = false
         updateFlipCountLabel()
+        playAgainButton.isHidden = false
     }
     
 }
