@@ -19,8 +19,6 @@ class ViewController: UIViewController {
     let themeList: [(emojis: String, cardColor: UIColor, secondaryColor: UIColor)] = [
         ("👻🎃🦇🧙🏼‍♂️🍬🙀👺🍭😈🍎", #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1), #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)),
         ("🎄🎅🏼✨🎁☃️❄️⛪️🐪👑🥂🥁🐑👼🏻🎺", #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1), #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1))
-    
-    
     ]
    
     
@@ -41,6 +39,8 @@ class ViewController: UIViewController {
         ]
         if game.gameOver {
             attributedString = NSAttributedString(string: "Game Over... \n \(flipCount) Flips!", attributes: attributes)
+        } else if (flipCount == 0) {
+            attributedString = NSAttributedString(string: "Let's Play!", attributes: attributes)
         } else {
             attributedString = NSAttributedString(string: "Flips \(flipCount)", attributes: attributes)
         }
