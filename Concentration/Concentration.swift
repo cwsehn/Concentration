@@ -15,6 +15,7 @@ struct Concentration {
     private var matchedCards = 0
     
     var flipCounter: Int = 0
+    var pointCounter: Int = 0
     
     private(set) var gameOver = false
     
@@ -29,24 +30,34 @@ struct Concentration {
         }
     }
     
+    mutating private func countScore(firstCard: Int, secondCard: Int) {
+        if cards[firstCard].previouslySeen { pointCounter -= 1 }
+        cards[firstCard].previouslySeen = true
+        if cards[secondCard].previouslySeen { pointCounter -= 1 }
+        cards[secondCard].previouslySeen = true
+    }
+    
     mutating func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
         flipCounter += 1
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
+                cards[index].isFaceUp = true
+                
                 // check if cards match
                 if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     matchedCards += 2
+                    pointCounter += 2
+                    print("points: \(pointCounter)")
         
                     if matchedCards == cards.count {
                         gameOver = true
                     }
-                }
-                cards[index].isFaceUp = true
+                } else { countScore(firstCard: matchIndex, secondCard: index) }
+                
             } else {
-                // either 0 or 2 cards are face up...
                 indexOfOneAndOnlyFaceUpCard = index
             }
         }
