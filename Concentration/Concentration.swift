@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Concentration {
+class Concentration {
     
     private(set) var cards = [Card]()
     
@@ -16,6 +16,13 @@ struct Concentration {
     
     var flipCounter: Int = 0
     var pointCounter: Int = 0
+    var time = 0.0 {
+        didSet {
+            NotificationCenter.default.post(name: NSNotification.Name("TimeChanged"), object: nil)
+        }
+    }
+    
+    var timer = Timer()
     
     private(set) var gameOver = false
     
@@ -30,14 +37,24 @@ struct Concentration {
         }
     }
     
-    mutating private func countScore(firstCard: Int, secondCard: Int) {
+    func startTimer () {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [unowned self] (timer) in
+            self.time += 0.01
+            print(self.time)
+        })
+        
+    }
+    
+
+    
+    private func countScore(firstCard: Int, secondCard: Int) {
         if cards[firstCard].previouslySeen { pointCounter -= 1 }
         cards[firstCard].previouslySeen = true
         if cards[secondCard].previouslySeen { pointCounter -= 1 }
         cards[secondCard].previouslySeen = true
     }
     
-    mutating func chooseCard(at index: Int) {
+    func chooseCard(at index: Int) {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index not in the cards")
         flipCounter += 1
         if !cards[index].isMatched {
@@ -50,7 +67,6 @@ struct Concentration {
                     cards[index].isMatched = true
                     matchedCards += 2
                     pointCounter += 2
-                    print("points: \(pointCounter)")
         
                     if matchedCards == cards.count {
                         gameOver = true
@@ -72,7 +88,7 @@ struct Concentration {
         shuffle()
     }
     
-    private mutating func shuffle() {
+    private func shuffle() {
         var tempDeck = [Card]()
         while cards.count > 0 {
             let randomIndex = cards.count.arc4Random

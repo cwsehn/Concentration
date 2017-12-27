@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     
     private func updateFlipCountLabel() {
         let flipCount = game.flipCounter
+        scoreLabel.text = "Score: \(game.pointCounter * 100)"
         var attributedString: NSAttributedString
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeWidth : 5.0,
@@ -55,9 +56,14 @@ class ViewController: UIViewController {
         flipCountLabel.attributedText = attributedString
     }
     
+    
     @IBOutlet private var cardButtons: [UIButton]!
     
     @IBOutlet private weak var flipCountLabel: UILabel!
+    
+    @IBOutlet weak var timerLabel: UILabel!
+
+    @IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet private weak var playAgainButton: UIButton!
     
@@ -68,10 +74,26 @@ class ViewController: UIViewController {
         emoji = [:]
         emojiChoices = themeList[currentTheme].emojis
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
-        game.flipCounter = 0
+        game.startTimer()
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("TimeChanged"),
+            object: nil,
+            queue: OperationQueue.main,
+            using: timeChanged(notification: )
+        )
         updateFlipCountLabel()
         updateViewFromModel()
     }
+    
+    func timeChanged(notification: Notification) {
+        let twoSignificant = String(format: "%.2f", arguments: [game.time])
+        timerLabel.text = "\(twoSignificant) seconds"
+    }
+    
+    
+    
+    
+
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -116,6 +138,7 @@ class ViewController: UIViewController {
     }
     
     private func endGame() {
+        game.timer.invalidate()
         playAgainButton.setTitle("Play Again?", for: .normal)
         playAgainButton.isHidden = false
         updateFlipCountLabel()
